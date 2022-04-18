@@ -14,4 +14,21 @@ Any thoughts I have about user requirements and stuff will also be attached to t
  - Upgrade `pip` to latest version using command `python -m pip install --upgrade pip`
  - Install the following packages: Django (`Django`), feedparser (`feedparser`), django=apscheduler (`django-apscheduler`). 
 
+#### Superuser details (for debugging) 
+ - Username: shreyassaxena
+ - Password: Cirrus Password
+ - Email Address: Gmail Account 
+
+#### Product Requirements 
+
+As a user I would like to: 
+1. Know the title of the article 
+2. Know the provider of the article 
+3. Know when the article was published 
+4. Have a way to access the full version of the article 
+5. Have tags on the article to summarize basic contents 
+6. Have different ways of viewing articles (by provider or by content, etc.)
+
+As a developer I would like to: 
+1. Have unique identifier for each article 
 
