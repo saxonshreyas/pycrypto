@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="/static/style.css">
-<title>Crypto News Aggregator</title>
-</head>
-<body>
-
-<h1>Welcome to my Crypto News Aggregator!</h1>
-<p>More content coming soon</p>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+{% for article in articles %}
+<div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h2 class="w3-text-teal">{{article.title}}</h2>
+      <b>{{article.pub_date}}</b><p>{{article.description}}</p>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

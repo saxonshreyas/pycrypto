@@ -11,4 +11,5 @@ class HomePageView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["articles"] = Article.objects.filter().order_by("-pub_date")[:10] # this shows the 10 latest articles found in the database
+        print(context["articles"])
         return context
