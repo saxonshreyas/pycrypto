@@ -39,15 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # MY APPS
     'news.apps.NewsConfig',
-    'rest_framework',
     # THIRD PARTY APPS
     'django_apscheduler',
+    'rest_framework', # necessary for defining the REST APIs we need 
+    'corsheaders' # necessary for setting CORS policy. More information can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -134,6 +136,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Logging Errors of API Scheduler 
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -147,3 +150,7 @@ LOGGING = {
         "level": "INFO",
     },
 }
+
+# API SETTINGS
+
+CORS_ALLOW_ALL_ORIGINS = True

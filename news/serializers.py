@@ -6,4 +6,4 @@ from .models import Article
 class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Article
-        fields = ['title', 'description', 'pub_date', 'link', 'publisher']
+        fields = ['uid', 'title', 'description', 'pub_date', 'link', 'publisher']

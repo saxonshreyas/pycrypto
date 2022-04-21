@@ -11,6 +11,12 @@ from django.http import HttpResponse, JsonResponse
 # API Definition for Article 
 from .serializers import ArticleSerializer
 
+# id_mapper should be moved to a separate database at some point 
+id_mapper = {
+    1: "Cointelegraph.com News",
+    2: "The Coinbase Blog - Medium",
+}
+
 # Create your views here.
 class HomePageView(ListView):
     template_name = "index.html"
@@ -24,13 +30,13 @@ class HomePageView(ListView):
         return context
 
 @csrf_exempt
-def articles(request):
+def articles(request, id):
     '''
     Retrieve all article metadata
     '''
     if (request.method == 'GET'):
         # get queryset 
-        articles = Article.objects.filter().order_by("-pub_date")[:10] # shows the 10 latest articles found in the database 
+        articles = Article.objects.filter(publisher=id_mapper[id]).order_by("-pub_date")[:10] # shows the 10 latest articles found in the database 
         # serialize the article data
         serializer = ArticleSerializer(articles, many = True)
         # return a JSON Response 

@@ -18,10 +18,11 @@ from news.models import Article
 CLEANR = re.compile('<.*?>') # this is the regular expression that removes everything inside html tags and returns just the text
 
 COINTELEGRAPH_FEED = "https://cointelegraph.com/rss"
+COINBASE_FEED = "https://blog.coinbase.com/feed"
 
 logger = logging.getLogger(__name__)
 
-def save_new_articles(feed):
+def save_new_articles(feed, nullPubTitle=None):
     """
     Saves new articles to the database 
 
@@ -32,13 +33,19 @@ def save_new_articles(feed):
         cleantext = re.sub(CLEANR, '', raw_html)
         return cleantext
     
-    publisher_title = feed.channel.title
+    if nullPubTitle:
+        publisher_title = nullPubTitle  
+    else:  
+        publisher_title = feed.channel.title
     
     for item in feed.entries:
         if not Article.objects.filter(uid = item.guid).exists():
+            text = cleanhtml(item.description)
+            if len(text) > 100:
+                text = text.partition('.')[0] + '...'
             new_article = Article(
                 title = item.title,
-                description = cleanhtml(item.description),
+                description = text,
                 pub_date = parser.parse(item.published),
                 link = item.link,
                 publisher = publisher_title,
@@ -49,6 +56,11 @@ def save_new_articles(feed):
 def fetch_cointelegraph_articles():
     """Fetches new articles from Coin Telegraph RSS"""
     _feed = feedparser.parse(COINTELEGRAPH_FEED)
+    save_new_articles(_feed)
+
+def fetch_coinbase_articles():
+    """Fetches new articles from Coinbase RSS"""
+    _feed = feedparser.parse(COINBASE_FEED, "Coinbase Blogs")
     save_new_articles(_feed)
 
 def delete_old_job_executions(max_age=604_800):
@@ -71,6 +83,17 @@ class Command(BaseCommand):
                 replace_existing=True,
             )
             logger.info("Added job: CoinTelegraph")
+
+            scheduler.add_job(
+                fetch_coinbase_articles,
+                trigger="interval",
+                seconds=10, # in a production environment this should definitely be more than two minutes, can replace with hours = 12 to run every 12 hours 
+                id="Coinbase",
+                max_instances=1,
+                replace_existing=True,
+            )
+            logger.info("Added job: Coinbase Blogs")
+
 
             scheduler.add_job(
                 delete_old_job_executions,
