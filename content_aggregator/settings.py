@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # MY APPS
     'news.apps.NewsConfig',
+    'rest_framework',
     # THIRD PARTY APPS
     'django_apscheduler',
 ]
