@@ -1,9 +1,10 @@
 <template>
     <nav>
-        <div class="menu-item"><a href="#">Home</a></div>
+        <div class="menu-item"><router-link :to="{name: 'Home'}">Home</router-link></div>
         <DropdownComponent title="Cryptocurrency News" :items="cryptoproviders" />
-        <div class="menu-item"><a href="#">NFT News</a></div>
-        <div class="menu-item"><a href="#">Web3 News</a></div>
+        <div class="menu-item"><router-link to="#">NFT News</router-link></div>
+        <div class="menu-item"><router-link to="#">Web3 News</router-link></div>
+        <div class="menu-item"><router-link to="#">Crypto Whitepapers</router-link></div>
     </nav>
 </template>
 
@@ -19,15 +20,18 @@ export default {
             cryptoproviders: [
                 {
                     title: 'Cointelegraph News',
-                    link: '#'
+                    link: '/articles/cointelegraph',
+                    id: 'cointelegraph',
                 },
                 {
                     title: 'Coinbase Blogs',
-                    link: '#'
+                    link: '/articles/coinbase',
+                    id: 'coinbase',
                 },
                 {
                     title: 'Another RSS Feed',
-                    link: '#'
+                    link: '#',
+                    id: '#'
                 }
             ]
         }
@@ -62,5 +66,11 @@ nav .menu-item:hover {
 nav .menu-item a {
     color: inherit;
     text-decoration: none;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+nav .menu-item a.router-link-exact-active {
+    font-weight: bold;
 }
 </style>
